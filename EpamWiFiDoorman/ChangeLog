@@ -1,5 +1,6 @@
 2012-03-07  Ghost  <Ghost@Ghost-PC>
 
+	* src\ua\org\bytes\android\wifibutler\PreferencesActivity.java (onCreate): 
 	* ChangeLog: 
 Version 1.1:
 	+ Load EPAM logo when program starts

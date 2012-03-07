@@ -15,7 +15,7 @@ public class PreferencesActivity extends PreferenceActivity {
 	    addPreferencesFromResource(R.xml.preferences);
 	    
 	    preferences = PreferenceManager.getDefaultSharedPreferences(this);
-	    boolean isEnabled = preferences.getBoolean(EpamWiFiDoormanActivity.USE_CUSTOM_HOST, true);
+	    boolean isEnabled = preferences.getBoolean(EpamWiFiDoormanActivity.USE_CUSTOM_HOST, false);
 	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.LOGIN_HOST).setEnabled(!isEnabled);
 	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.CUSTOM_HOST).setEnabled(isEnabled);
 	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.USE_CUSTOM_HOST).setOnPreferenceChangeListener(pref_click);
