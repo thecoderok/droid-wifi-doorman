@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Epam WiFi Doorman</string>
+	<string-array name="EpamCiscoHosts">
+		<item name="Kyiv">https://kyiv-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Kyiv-Guests">https://kyiv-guests.epam.com:444/netaccess/connstatus.html</item>
+		<item name="Astana">https://astana-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Brest">https://brest-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Budapest">https://budapest-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Debrecen">https://debrecen-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Dnipropetrovsk">https://dnipropetrovsk-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Gomel">https://gomel-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Grodno">https://grodno-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Izhevsk">https://Izhevsk-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Karaganda">https://karaganda-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Kharkiv">https://kharkiv-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Lviv">https://lviv-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Minsk">https://minsk-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Mogilev">https://mogilev-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Moscow">https://moscow-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Ryazan">https://ryazan-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Saint Petersburg">https://spb-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Samara">https://samara-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Saratov">https://saratov-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Sergievposad">https://sergievposad-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Szeged">https://szeged-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Tver">https://tver-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Vinnitsya">https://vinnitsya-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Vitebsk">https://vitebsk-employees.epam.com/netaccess/connstatus.html</item>
+	</string-array>
+	
+	<string-array name="EpamCiscoHostsNames">
+		<item name="Kyiv">Kyiv</item>
+		<item name="Kyiv-Guests">Kyiv-Guests</item>
+		<item name="Astana">Astana</item>
+		<item name="Brest">Brest</item>
+		<item name="Budapest">Budapest</item>
+		<item name="Debrecen">Debrecen</item>
+		<item name="Dnipropetrovsk">Dnipropetrovsk</item>
+		<item name="Gomel">Gomel</item>
+		<item name="Grodno">Grodno</item>
+		<item name="Izhevsk">Izhevsk</item>
+		<item name="Karaganda">Karaganda</item>
+		<item name="Kharkiv">Kharkiv</item>
+		<item name="Lviv">Lviv</item>
+		<item name="Minsk">Minsk</item>
+		<item name="Mogilev">Mogilev</item>
+		<item name="Moscow">Moscow</item>
+		<item name="Ryazan">Ryazan</item>
+		<item name="Saint Petersburg">Saint Petersburg</item>
+		<item name="Samara">Samara</item>
+		<item name="Saratov">Saratov</item>
+		<item name="Sergievposad">Sergievposad</item>
+		<item name="Szeged">Szeged</item>
+		<item name="Tver">Tver</item>
+		<item name="Vinnitsya">Vinnitsya</item>
+		<item name="Vitebsk">Vitebsk</item>
+	</string-array>
+</resources>
