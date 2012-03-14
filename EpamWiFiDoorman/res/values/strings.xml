@@ -14,7 +14,7 @@
 		<item name="Izhevsk">https://Izhevsk-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Karaganda">https://karaganda-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Kharkiv">https://kharkiv-employees.epam.com/netaccess/connstatus.html</item>
-		<item name="Lviv">https://lviv-employees.epam.com/netaccess/connstatus.html</item>
+		<item name="Lviv">https://lviv-employees.epam.com:443/netaccess/connstatus.html</item>
 		<item name="Minsk">https://minsk-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Mogilev">https://mogilev-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Moscow">https://moscow-employees.epam.com/netaccess/connstatus.html</item>
