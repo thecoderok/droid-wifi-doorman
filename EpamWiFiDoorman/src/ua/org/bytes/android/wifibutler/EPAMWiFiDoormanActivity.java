@@ -21,7 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class EpamWiFiDoormanActivity extends Activity {
+public class EPAMWiFiDoormanActivity extends Activity {
 	public static final String CUSTOM_HOST = "customHost";
 	public static final String LOGIN_HOST = "loginHost";
 	public static final String USERNAME = "username";
@@ -30,7 +30,7 @@ public class EpamWiFiDoormanActivity extends Activity {
 	public static final String NETWORK = "network";
 	public static final String LOG_TAG = "wifiDoorman";
 	SharedPreferences preferences;
-	public static final String DEFAULT_CISCO_HOST = "https://kyiv-employees.epam.com/netaccess/connstatus.html";
+	public static final String DEFAULT_CISCO_HOST = "https://wifi.epam.com/"; // by Maksymenko
 	public static final String NO_VALUE = "N/A";
 	public static final String AUTOLOGIN = "AUTOLOGIN";
 	public static final String CHECK_CONNECTION = "isCheckConnection";
@@ -70,7 +70,7 @@ public class EpamWiFiDoormanActivity extends Activity {
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress) {
-				EpamWiFiDoormanActivity.this.setProgress(progress * 100);
+				EPAMWiFiDoormanActivity.this.setProgress(progress * 100);
 			}
 		});
 		webView.setWebViewClient(new WebViewClient() {
@@ -92,7 +92,7 @@ public class EpamWiFiDoormanActivity extends Activity {
 
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
-		
+
 		if (autologin){
 			Button loginButton = (Button) findViewById(R.id.loginButton);
 			loginButton.performClick();
@@ -110,7 +110,7 @@ public class EpamWiFiDoormanActivity extends Activity {
 	}
 
 	private void showPropertiesActivity() {
-		Intent i = new Intent(EpamWiFiDoormanActivity.this,
+		Intent i = new Intent(EPAMWiFiDoormanActivity.this,
 				PreferencesActivity.class);
 		startActivity(i);
 	}
@@ -127,8 +127,8 @@ public class EpamWiFiDoormanActivity extends Activity {
 					|| password.equalsIgnoreCase(NO_VALUE)
 					|| ciscoHost.equalsIgnoreCase(NO_VALUE)) {
 				Toast.makeText(
-						EpamWiFiDoormanActivity.this,
-						"Please, specify your epam office, username and password in properties",
+						EPAMWiFiDoormanActivity.this,
+						"Please, specify your EPAM office, username and password in properties",
 						Toast.LENGTH_LONG).show();
 				showPropertiesActivity();
 				return;
@@ -137,32 +137,25 @@ public class EpamWiFiDoormanActivity extends Activity {
 			p_password = password; 
 			wfQueue.clear();
 			wfQueue.add(checkScript);
-			wfQueue.add(clickLogin);
 			wfQueue.add(loginScript.replace("${username}", userName).replace(
 					"${password}", password));
 			if (autologin){
 				wfQueue.add(finishActivity);
 			}
-			
+
 			Log.i(LOG_TAG, "Opening Cisco Net Access Host " + ciscoHost);
-			webView.loadUrl(ciscoHost);
+			webView.loadUrl(ciscoHost + "logout.html");
 		}
 	}
 
-	private String checkScript = "javascript: var btns = document.getElementsByName('logout');"
-			+ "if (btns.length>0) window.HTMLOUT.loggedIn(); else window.HTMLOUT.notLoggedIn();";
-
-	private String clickLogin = "javascript:var btns = document.getElementsByName('login'); "
-			+ "var evt = document.createEvent('MouseEvents'); "
-			+ "evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); "
-			+ " btns[0].dispatchEvent(evt);";
+	private String checkScript = "javascript: if(document.forms[0].userStatus.value != 0){ window.HTMLOUT.loggedIn(); }"; //  by Maksymenko
 	private String loginScript = "javascript:var els = document.getElementsByName('username'); "
 			+ "var strPassword =window.HTMLOUT.getPassword();"
 			+ "var strUsername =window.HTMLOUT.getUserName();"
 			+ "els[0].value = strUsername; "
 			+ " var els = document.getElementsByName('password'); "
 			+ " els[0].value = strPassword; "
-			+ " var els = document.getElementsByName('Login'); "
+			+ " var els = document.getElementsByName('Submit'); " // by Maksymenko
 			+ " els[0].click();";
 	private String epamLogo = "<html><head> <table width=\"100%\" height=\"100%\" align=\"center\" valign=\"center\"> <tr><td>"
 			+ "<center><img src='file:///android_asset/logo.gif' /></center>"
@@ -171,29 +164,24 @@ public class EpamWiFiDoormanActivity extends Activity {
 
 	class MyJavaScriptInterface {
 		public void loggedIn() {
-			EpamWiFiDoormanActivity.wfQueue.clear();
-			//Toast.makeText(EpamWiFiDoormanActivity.this,
+			EPAMWiFiDoormanActivity.wfQueue.clear();
+			//Toast.makeText(EPAMWiFiDoormanActivity.this,
 			//		"You already logged in", Toast.LENGTH_LONG).show();
 			if (autologin){
 				finishActivity();
 			}
 		}
 
-		public void notLoggedIn() {
-			String url = wfQueue.poll();
-			EpamWiFiDoormanActivity.this.webView.loadUrl(url);
-		}
-		
 		public void finishActivity(){
 			finish();
 		}
 		
 		public String getPassword(){
-			return EpamWiFiDoormanActivity.this.getPassword();
+			return EPAMWiFiDoormanActivity.this.getPassword();
 		}
 		
 		public String getUserName(){
-			return EpamWiFiDoormanActivity.this.getUserName();
+			return EPAMWiFiDoormanActivity.this.getUserName();
 		}
 	}
 

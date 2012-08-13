@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-   	<ListPreference android:title="Cisco NetAccess Host" android:key="loginHost" android:entryValues="@array/EpamCiscoHosts" android:entries="@array/EpamCiscoHostsNames"></ListPreference>
-   	<EditTextPreference android:title="Username" android:key="username"></EditTextPreference>
-    <EditTextPreference android:title="Password" android:key="password" android:inputType="textPassword"></EditTextPreference>
-    <EditTextPreference android:title="Login automatically for this network" android:key="network"></EditTextPreference>
-    <CheckBoxPreference android:title="Use custom NetAccess Host" android:key="useCustomHost"></CheckBoxPreference>
-    <EditTextPreference android:key="customHost" android:title="User-defined Cisco NetAccess Host" ></EditTextPreference>
-    <CheckBoxPreference android:key="isCheckConnection" android:title="Check connection before popup" ></CheckBoxPreference>
+   	<ListPreference android:title="NetAccess Host" android:key="loginHost" android:entryValues="@array/EPAMCiscoHosts" android:entries="@array/EPAMCiscoHostsNames" android:defaultValue="https://wifi.epam.com/" />
+   	<EditTextPreference android:title="Username" android:key="username" />
+    <EditTextPreference android:title="Password" android:key="password" android:inputType="textPassword" />
+    <EditTextPreference android:title="Login automatically for this network" android:key="network" android:defaultValue="EPAMemployees" />
+    <CheckBoxPreference android:title="Use custom NetAccess Host" android:key="useCustomHost" android:defaultValue="false" />
+    <EditTextPreference android:key="customHost" android:title="User-defined NetAccess Host" />
+    <CheckBoxPreference android:key="isCheckConnection" android:title="Check connection before popup" android:defaultValue="true" />
 </PreferenceScreen>

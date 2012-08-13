@@ -1,91 +1,67 @@
 package ua.org.bytes.android.wifibutler.listeners;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import ua.org.bytes.android.wifibutler.EpamWiFiDoormanActivity;
+//For connection status processing
+import ua.org.bytes.android.wifibutler.EPAMWiFiDoormanActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+//import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiInfo;
 import android.util.Log;
+//For connection check
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.IOException;
 
 public class ConnectionChangeReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-		if (activeNetInfo != null) {
-			SharedPreferences preferences = PreferenceManager
-					.getDefaultSharedPreferences(context);
-			String network = preferences.getString(
-					EpamWiFiDoormanActivity.NETWORK,
-					EpamWiFiDoormanActivity.NO_VALUE);
-			if (!network.equalsIgnoreCase(EpamWiFiDoormanActivity.NO_VALUE)) {
-				WifiManager wifiMgr = (WifiManager) context
-						.getSystemService(Context.WIFI_SERVICE);
-				WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-
-				if (activeNetInfo.getTypeName().equalsIgnoreCase("WIFI")) {
-					if (wifiInfo.getSSID().equalsIgnoreCase(network)) {
-						//If check connection enabled in preferences
-						//How to ceck connection - try to open some URL and then check result URL.
-						//If URL is different - we were redirected
-						boolean checkConnection = preferences.getBoolean(
-								EpamWiFiDoormanActivity.CHECK_CONNECTION,
-								false);
-						if (checkConnection){
-							// Check inet connection without redirects
-							if (isConnected())
-								return; // If already connected to internet - do
-										// nothing
-						}
-						Log.i(EpamWiFiDoormanActivity.LOG_TAG,
-								"Launching activity");
-						Intent i = new Intent(context,
-								EpamWiFiDoormanActivity.class);
-						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						i.putExtra(EpamWiFiDoormanActivity.AUTOLOGIN, true);
-						context.startActivity(i);
-					}
-				}
-			}
-		}
+                //Check Action to be sure
+                if (!intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) return;
+                //Get network SSID from preferences and return if it is not specified
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String network = preferences.getString(EPAMWiFiDoormanActivity.NETWORK,EPAMWiFiDoormanActivity.NO_VALUE);
+                if (network.equalsIgnoreCase(EPAMWiFiDoormanActivity.NO_VALUE)) return;
+  		//Get active network connection info
+//		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+		NetworkInfo activeNetInfo = (NetworkInfo) intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+		//Check if active connection is available, connected and its type is WiFi
+		if (activeNetInfo == null || !activeNetInfo.isAvailable() || !activeNetInfo.isConnected() || !activeNetInfo.getTypeName().equalsIgnoreCase("WIFI")) return;
+                //Get current Wi-Fi connection info
+		WifiManager wifiMgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+                //Check Wi-Fi network SSID, if connected
+		if (wifiInfo == null || !wifiInfo.getSSID().equalsIgnoreCase(network)) return;
+		//Check Inet connection if it is enabled in preferences
+		boolean checkConnection = preferences.getBoolean(EPAMWiFiDoormanActivity.CHECK_CONNECTION,false);
+                if (checkConnection && isConnected()) return;
+                //Start WiFiDoorman
+		Log.i(EPAMWiFiDoormanActivity.LOG_TAG,"Launching activity");
+		Intent i = new Intent(context,EPAMWiFiDoormanActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.putExtra(EPAMWiFiDoormanActivity.AUTOLOGIN, true);
+		context.startActivity(i);
 	}
-
-	private boolean isConnected() {
-		boolean result = false;
-		Log.i(EpamWiFiDoormanActivity.LOG_TAG, "Started Inet connection check");
-		try{
-			URL url = new URL("http://www.android.com/");
-			HttpURLConnection urlConnection = (HttpURLConnection) url
-					.openConnection();
-			try {
-				InputStream in = new BufferedInputStream(
-						urlConnection.getInputStream());
-				if (!url.getHost().equals(urlConnection.getURL().getHost())) {
-					//Using method described here: http://developer.android.com/reference/java/net/HttpURLConnection.html
-					result = false;
-				} else {
-					result = true;
-				}
-			} finally {
-				urlConnection.disconnect();
-				Log.i(EpamWiFiDoormanActivity.LOG_TAG, "Ended Inet connection check, result = " + result);
-			}
-			return result;
-		} catch(Exception ex){
-			Log.e(EpamWiFiDoormanActivity.LOG_TAG, "Exception during inet conenction check: " + ex.getMessage());
-			return false;
-		}
-	}
+        private boolean isConnected() {
+                HttpURLConnection urlConnection = null;
+                try {
+                    URL url = new URL("http://clients3.google.com/generate_204");
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setInstanceFollowRedirects(false);
+                    urlConnection.setConnectTimeout(10000);
+                    urlConnection.setReadTimeout(10000);
+                    urlConnection.setUseCaches(false);
+                    urlConnection.getInputStream();
+                    return urlConnection.getResponseCode() == 204;
+                } catch (IOException e) {
+                    Log.e(EPAMWiFiDoormanActivity.LOG_TAG,"Walled garden check - probably not a portal: exception " + e);
+                    return false;
+                } finally {
+                    if (urlConnection != null) urlConnection.disconnect();
+                }
+        }
 }

@@ -15,16 +15,16 @@ public class PreferencesActivity extends PreferenceActivity {
 	    addPreferencesFromResource(R.xml.preferences);
 	    
 	    preferences = PreferenceManager.getDefaultSharedPreferences(this);
-	    boolean isEnabled = preferences.getBoolean(EpamWiFiDoormanActivity.USE_CUSTOM_HOST, false);
-	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.LOGIN_HOST).setEnabled(!isEnabled);
-	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.CUSTOM_HOST).setEnabled(isEnabled);
-	    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.USE_CUSTOM_HOST).setOnPreferenceChangeListener(pref_click);
+	    boolean isEnabled = preferences.getBoolean(EPAMWiFiDoormanActivity.USE_CUSTOM_HOST, false);
+	    getPreferenceScreen().findPreference(EPAMWiFiDoormanActivity.LOGIN_HOST).setEnabled(!isEnabled);
+	    getPreferenceScreen().findPreference(EPAMWiFiDoormanActivity.CUSTOM_HOST).setEnabled(isEnabled);
+	    getPreferenceScreen().findPreference(EPAMWiFiDoormanActivity.USE_CUSTOM_HOST).setOnPreferenceChangeListener(pref_click);
 	}
 	private OnPreferenceChangeListener pref_click = new OnPreferenceChangeListener() {
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			boolean isEnabled = preferences.getBoolean(EpamWiFiDoormanActivity.USE_CUSTOM_HOST, true);
-		    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.LOGIN_HOST).setEnabled(isEnabled);
-		    getPreferenceScreen().findPreference(EpamWiFiDoormanActivity.CUSTOM_HOST).setEnabled(!isEnabled);
+			boolean isEnabled = preferences.getBoolean(EPAMWiFiDoormanActivity.USE_CUSTOM_HOST, true);
+		    getPreferenceScreen().findPreference(EPAMWiFiDoormanActivity.LOGIN_HOST).setEnabled(isEnabled);
+		    getPreferenceScreen().findPreference(EPAMWiFiDoormanActivity.CUSTOM_HOST).setEnabled(!isEnabled);
 		    return true;
 		}
 	};

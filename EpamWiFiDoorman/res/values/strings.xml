@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Epam WiFi Doorman</string>
-	<string-array name="EpamCiscoHosts">
+	<string name="app_name">EPAM WiFi Doorman</string>
+	<string-array name="EPAMCiscoHosts">
+	        <item name="Global">https://wifi.epam.com/</item>
+<!--
 		<item name="Kyiv">https://kyiv-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Kyiv-Guests">https://kyiv-guests.epam.com:444/netaccess/connstatus.html</item>
 		<item name="Astana">https://astana-employees.epam.com/netaccess/connstatus.html</item>
@@ -27,9 +29,12 @@
 		<item name="Tver">https://tver-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Vinnitsya">https://vinnitsya-employees.epam.com/netaccess/connstatus.html</item>
 		<item name="Vitebsk">https://vitebsk-employees.epam.com/netaccess/connstatus.html</item>
+-->
 	</string-array>
 	
-	<string-array name="EpamCiscoHostsNames">
+	<string-array name="EPAMCiscoHostsNames">
+		<item name="Global">Global (NEW)</item>
+<!--
 		<item name="Kyiv">Kyiv</item>
 		<item name="Kyiv-Guests">Kyiv-Guests</item>
 		<item name="Astana">Astana</item>
@@ -55,5 +60,6 @@
 		<item name="Tver">Tver</item>
 		<item name="Vinnitsya">Vinnitsya</item>
 		<item name="Vitebsk">Vitebsk</item>
+-->
 	</string-array>
 </resources>
